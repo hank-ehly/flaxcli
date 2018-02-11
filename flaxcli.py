@@ -24,9 +24,9 @@ class FlaxCli:
             's1.dbName': 'Wikipedia'
         }
 
-        uri = 'http://flax.nzdl.org/greenstone3/flax?' + parse.urlencode(params)
+        url = 'http://flax.nzdl.org/greenstone3/flax?' + parse.urlencode(params)
+        xml = request.urlopen(url).read().decode('UTF8')
 
-        xml = request.urlopen(uri).read().decode('UTF8')
         query = xmltodict.parse(xml, force_list=('colloSamples', 'colloType'))['page']['pageResponse']['colloQuery']
 
         if 'colloSamples' not in query:
@@ -49,22 +49,16 @@ class FlaxCli:
         return collocations
 
     def query_text(self, text):
-        text = text.translate(str.maketrans('', '', string.punctuation))
-        words = text.split()
+        stripped_text = text.translate(str.maketrans('', '', string.punctuation))
+        words = set(stripped_text.split())
+        len_words = len(words)
+        cols = []
 
-        unique_words = set(list(words))
-        num_words = len(unique_words)
-
-        _ret = []
-
-        for i, word in enumerate(unique_words):
-            cols = self.query_word(word)
-
-            for col in cols:
+        for i, word in enumerate(words):
+            for col in self.query_word(word):
                 if col in text:
-                    _ret.append(col)
+                    cols.append(col)
 
-            print('%.2f%%' % ((i / num_words) * 100))
+            print('%.2f%%' % (((i + 1) / len_words) * 100))
 
-        unique = list(set(_ret))
-        return unique
+        return list(set(cols))
