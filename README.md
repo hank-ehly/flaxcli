@@ -15,7 +15,7 @@ collocations = client.query_text('He is a highly individualistic actor who speak
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Hank Ehly
+Copyright (c) 2018 Hank Ehly
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
