@@ -2,6 +2,8 @@
 
 Programmatically search a body of text for recurrent, semi-fixed combinations of words (aka "collocations"). Uses [FLAX](http://flax.nzdl.org/greenstone3/flax?a=fp&sa=collAbout&c=collocations&if=flax) library.
 
+### Usage
+
 ```python
 from flaxcli import FlaxCli
 
